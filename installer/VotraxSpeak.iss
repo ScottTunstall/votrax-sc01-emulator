@@ -191,11 +191,11 @@ begin
       '{#MyAppName} needs one small file from the speech chip, called sc01a.bin. It is copyrighted, so this ' +
       'installer does not include it.' + #13#10#13#10 +
       'You can get it from the MAME ROM sets, which are available online. Download the zip called ' +
-      'votrsc01a.zip and open it: sc01a.bin is inside. (The original chip''s version is in votrsc01.zip, ' +
-      'as sc01.bin.)' + #13#10#13#10 +
-      'Then choose that .bin file below to have it copied into the install folder. You can leave this blank ' +
+      'votrsc01a.zip and open it: sc01a.bin is inside. That is the file to choose. (The zip votrsc01.zip ' +
+      'holds an older alternative, sc01.bin. You do not need it.)' + #13#10#13#10 +
+      'Choose sc01a.bin below to have it copied into the install folder. You can leave this blank ' +
       'to keep a ROM that is already installed, or to give the file to {#MyAppName} later with --rom <path>.');
-  RomPage.Add('&ROM file:', 'Votrax SC-01 ROM (sc01a.bin, sc01.bin)|sc01a.bin;sc01.bin|All files|*.*', '.bin');
+  RomPage.Add('&ROM file:', 'Votrax SC-01 ROM (sc01a.bin)|sc01a.bin;sc01.bin|All files|*.*', '.bin');
   RomPage.Values[0] := ExpandConstant('{param:ROM|}');
 end;
 
