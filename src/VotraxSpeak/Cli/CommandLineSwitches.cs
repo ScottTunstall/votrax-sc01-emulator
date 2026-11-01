@@ -45,7 +45,7 @@ internal static class CommandLineSwitches
     public const string HelpQuestion = "-?";
 
     /// <summary>Everything after this is text to speak, even if it starts with '-'.</summary>
-    public const string EndOfOptions = "--";
+    public const string EndOfOptions = "@";
 
     /// <summary>Arguments starting with this character are options.</summary>
     public const char OptionPrefix = '-';

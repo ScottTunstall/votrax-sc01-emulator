@@ -7,11 +7,11 @@ using VotraxSpeak.Speech;
 namespace VotraxSpeak.Cli;
 
 /// <summary>
-/// Parses the command line: <c>[options] [--] text…</c>.
+/// Parses the command line: <c>[options] [@] text…</c>.
 /// </summary>
 /// <remarks>
 /// Text may be one quoted argument or several words, which are joined with spaces. Options may
-/// appear anywhere before <c>--</c>; everything after <c>--</c> is text, so text that starts with
+/// appear anywhere before <c>@</c>; everything after <c>@</c> is text, so text that starts with
 /// '-' can still be spoken. If an option is repeated, the last value wins.
 /// </remarks>
 internal static class CommandLineParser

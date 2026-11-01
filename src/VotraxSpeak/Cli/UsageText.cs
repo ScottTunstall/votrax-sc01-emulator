@@ -15,7 +15,7 @@ internal static class UsageText
     public static string Text { get; } = string.Format(
         CultureInfo.InvariantCulture,
         """
-        Usage: VotraxSpeak [options] [--] <text>
+        Usage: VotraxSpeak [options] [@] <text>
                VotraxSpeak [options] --phonemes <names>
                VotraxSpeak [options] --gorf <names>
 
@@ -35,7 +35,7 @@ internal static class UsageText
           -r, --rom <path>       Phoneme ROM image (default: sc01a.bin, then sc01.bin, next to
                                  the app or in the current directory).
           -h, --help             Show this help.
-          --                     Treat everything after this as text, even if it starts with '-'.
+          @                      Treat everything after this as text, even if it starts with '-'.
 
         Exit codes: 0 success, 2 invalid arguments, 3 phoneme ROM missing or invalid,
                     4 speech could not be played or written.

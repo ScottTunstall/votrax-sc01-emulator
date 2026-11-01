@@ -66,9 +66,9 @@ public sealed class CommandLineParserTests
     }
 
     [Fact]
-    public void TreatsEverythingAfterDoubleDashAsText()
+    public void TreatsEverythingAfterAtSignAsText()
     {
-        CommandLineOptions options = ParseSuccessfully("-p", "1", "--", "-5", "degrees", "-p");
+        CommandLineOptions options = ParseSuccessfully("-p", "1", "@", "-5", "degrees", "-p");
 
         Assert.Equal("-5 degrees -p", options.Text);
         Assert.Equal(1, options.Voice.Pitch);

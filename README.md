@@ -83,7 +83,7 @@ the program and then in the current directory.
 ## Usage
 
 ```
-VotraxSpeak [options] [--] <text>
+VotraxSpeak [options] [@] <text>
 ```
 
 | Option                 | Meaning |
@@ -96,7 +96,7 @@ VotraxSpeak [options] [--] <text>
 | `-p, --pitch <0-3>`    | Inflection level; higher is higher pitched. Default `0`. |
 | `-r, --rom <path>`     | The phoneme ROM to use. |
 | `-h, --help`           | Show help. |
-| `--`                   | Treat everything after this as text, even if it starts with `-`. |
+| `@`                    | Treat everything after this as text, even if it starts with `-`. |
 
 If an option is given twice, the last value wins.
 
@@ -119,7 +119,7 @@ VotraxSpeak -f hello.wav "Hello, world!"
 VotraxSpeak --rom D:\mame\roms\sc01.bin "Using the original SC-01"
 
 :: Text that starts with a dash
-VotraxSpeak -- "-5 degrees outside"
+VotraxSpeak @ "-5 degrees outside"
 
 :: Exact phonemes instead of text (see Speaking raw phonemes)
 VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
