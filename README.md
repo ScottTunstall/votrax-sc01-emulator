@@ -19,8 +19,8 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 - [Quick setup](#quick-setup)
 - [The phoneme ROM](#the-phoneme-rom)
 - [Usage](#usage)
-  - [Speaking raw phonemes](#speaking-raw-phonemes)
-  - [Gorf speech, ready to paste](docs/gorf-speech.md)
+  - [Speaking raw phonemes](docs/speaking-raw-phonemes.md)
+  - [Gorf speech, ready to paste](docs/speaking-raw-phonemes.md#gorf-speech-ready-to-paste)
 - [Speed and pitch](#speed-and-pitch)
 - [Building the Solution](docs/building.md)
 - [How it works](docs/how-it-works.md)
@@ -89,7 +89,7 @@ VotraxSpeak [options] [@] <text>
 | Option                 | Meaning |
 |------------------------|---------|
 | `<text>`               | **Required.** The text to speak. Quote it, or pass several words, which are joined with spaces. |
-| `--phonemes <names>`   | Speak a phoneme list exactly as written, instead of text (see [Speaking raw phonemes](#speaking-raw-phonemes)). |
+| `--phonemes <names>`   | Speak a phoneme list exactly as written, instead of text (see [Speaking raw phonemes](docs/speaking-raw-phonemes.md)). |
 | `--gorf <names>`       | The same, with the names spelled as in the [Gorf arcade source](https://github.com/tinymouse42/Gorf_Disassembly/blob/main/src/Gorf_Disassembly.asm). |
 | `-f, --file <path>`    | Write the speech to a WAV file instead of playing it. |
 | `-s, --speed <25-400>` | Chip clock as a percentage of the nominal 720 kHz. Default `100`. |
@@ -130,31 +130,9 @@ five point five"), as are `&`, `%`, `+`, `=` and `@`. Commas and full stops make
 
 ### Speaking raw phonemes
 
-`--phonemes` (or `--gorf`, below) skips the text-to-phoneme step and sends the phonemes you list straight to the chip, so you
-can reproduce hand-written speech such as the arcade games' own data. For example, Gorf's "Insert coin."
-(from the [Gorf disassembly](https://github.com/tinymouse42/Gorf_Disassembly)):
-
-```console
-VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
-VotraxSpeak --gorf "PA1 I0 N S ER T PA1 K0 O1 UH3 I3 AY N N PA1"
-```
-
-- Names are the SC-01 data-sheet names, as used by MAME, separated by spaces or commas, in any case:
-  `EH3 EH2 EH1 PA0 DT A1 A2 ZH AH2 I3 I2 I1 M N B V CH SH Z AW1 NG AH1 OO1 OO L K J H G F D S A AY Y1
-  UH3 AH P O I U Y T R E W AE AE1 AW2 UH2 UH1 UH O2 O1 IU U1 THV TH ER EH E1 AW PA1 STOP`.
-- `--gorf` takes the names as the [Gorf arcade source](https://github.com/tinymouse42/Gorf_Disassembly/blob/main/src/Gorf_Disassembly.asm) spells them (to avoid clashing with Forth numbers): `pA2` is `A1`,
-  `pA1` is `A2`, `K0`/`J0`/`I0` are `K`/`J`/`I`, and the other `p` names (`pB pF pD pA pE pAE pAE1 pE1`)
-  just drop the `p`. The codes are the same, so the two lines above sound identical. Gorf names are
-  case-sensitive, because `pA1` (code `06`) and `PA1` (`3E`) differ.
-- `HI` or `UP` after a name sets that phoneme's inflection bits (`$80` and `$40` in the Gorf data), as
-  in `I1 UP Y UP AE`. Phonemes without one use `--pitch`.
-- Nothing is added or tidied, so include the `PA1` pauses yourself. You cannot give both text and
-  `--phonemes` or `--gorf`.
-
-### Gorf speech, ready to paste
-
-All 33 phrases from the Gorf arcade game, such as "Insert coin." and "I am the Gorfian Empire.", are
-listed as commands you can copy and paste in [`docs/gorf-speech.md`](docs/gorf-speech.md).
+`--phonemes` and `--gorf` skip the text conversion and send the phonemes you list straight to the chip.
+How to write them is in [`docs/speaking-raw-phonemes.md`](docs/speaking-raw-phonemes.md), which also lists
+all 33 phrases from the Gorf arcade game, such as "Insert coin.", as commands you can copy and paste.
 
 ### Exit codes
 
