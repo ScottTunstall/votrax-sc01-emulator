@@ -43,5 +43,5 @@ C implementation.
 
 ## Votrax SC-01 phoneme ROM
 
-The chip's internal ROM (`sc01a.bin` / `sc01.bin`) is **not** included. Supply your own dump,
+The chip's internal ROM (`sc01a.bin`) is **not** included. Supply your own dump,
 as you would for MAME.

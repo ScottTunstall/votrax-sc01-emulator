@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <!-- The phoneme ROM is copyrighted firmware and is not part of the source tree.
-         Put sc01a.bin and/or sc01.bin in the repository's roms folder and they are copied next to the
+         Put sc01a.bin in the repository's roms folder and they are copied next to the
          executable for local builds. They are never published, so they cannot end up in an installer. -->
     <None Include="..\..\roms\*.bin" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="Never" Visible="false" />
   </ItemGroup>

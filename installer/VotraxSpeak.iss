@@ -204,7 +204,7 @@ var
   Name: string;
 begin
   Name := ExtractFileName(Path);
-  Result := (CompareText(Name, RomFileNameA) = 0) or (CompareText(Name, RomFileName) = 0);
+  Result := CompareText(Name, RomFileNameA) = 0;
 end;
 
 { Checks the chosen ROM before leaving the page. The program verifies the ROM's hash when it runs;

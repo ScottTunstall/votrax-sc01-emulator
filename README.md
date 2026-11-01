@@ -64,20 +64,22 @@ To save the speech as a sound file instead, type `VotraxSpeak -f hello.wav "Hell
 ## The phoneme ROM
 
 The SC-01 keeps its phoneme parameters in an internal 512-byte ROM. That ROM is copyrighted firmware, so
-it is **not** in this repository or in the installers. The dumps are part of MAME's ROM sets, which
+it is **not** in this repository or in the installers. The dump is part of MAME's ROM sets, which
 are available online (search for "MAME ROMs", or for the zip names below). Make sure you have a
-MAME-compatible set and are entitled to use it. The two ROMs are tiny, standalone zips in that set:
+MAME-compatible set and are entitled to use it. The ROM is a tiny, standalone zip in that set:
 
-| Zip to download   | File inside it | Chip revision | Size      | Needed? |
-|-------------------|----------------|---------------|-----------|---------|
-| `votrsc01a.zip`   | `sc01a.bin`    | SC-01-A       | 512 bytes | **Use this one.** It is the default and the one most arcade boards used |
-| `votrsc01.zip`    | `sc01.bin`     | SC-01         | 512 bytes | **DO NOT USE `sc01.bin`.** Use `sc01a.bin` from `votrsc01a.zip` |
+| Zip to download   | File inside it | Chip revision | Size      |
+|-------------------|----------------|---------------|-----------|
+| `votrsc01a.zip`   | `sc01a.bin`    | SC-01-A       | 512 bytes |
+
+`sc01a.bin` is the only ROM VotraxSpeak accepts. The set also has an older `votrsc01.zip` (holding `sc01.bin`):
+**DO NOT USE `sc01.bin`.** The app rejects it.
 
 You do not need the arcade game sets, `votrax.zip`, or any other zip. Extract the `.bin` from the zip.
-You only need `sc01a.bin`. The app checks the file's hash and refuses anything
-that is not one of these dumps. [`roms/README.md`](roms/README.md) lists the hashes.
+The app checks the file's hash and refuses anything
+that is not this dump. [`roms/README.md`](roms/README.md) lists the hashes.
 
-VotraxSpeak uses `--rom <path>` if given. Otherwise it looks for `sc01a.bin`, then `sc01.bin`, next to
+VotraxSpeak uses `--rom <path>` if given. Otherwise it looks for `sc01a.bin` next to
 the program and then in the current directory.
 
 ## Usage

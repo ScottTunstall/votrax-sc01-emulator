@@ -41,7 +41,7 @@ internal sealed class RomLocator
 
         return candidates.FirstOrDefault(File.Exists)
             ?? throw new RomNotFoundException(
-                "No Votrax SC-01 phoneme ROM was found. Copy MAME's sc01a.bin or sc01.bin (from votrsc01a.zip or votrsc01.zip) "
+                "No Votrax SC-01 phoneme ROM was found. Copy MAME's sc01a.bin (from votrsc01a.zip) "
                 + "next to the application, or pass its location with --rom. Searched: "
                 + string.Join(", ", _searchDirectories.Distinct()));
     }

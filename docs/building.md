@@ -14,7 +14,7 @@ next to the executable.
 
 ```console
 dotnet build              :: both target frameworks
-dotnet test               :: 87 tests on each framework
+dotnet test               :: 88 tests on each framework
 installer\build.ps1       :: VotraxSpeakSetup-net48.exe and VotraxSpeakSetup-net10.exe
 ```
 

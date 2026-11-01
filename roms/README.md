@@ -9,16 +9,15 @@ own dump into this folder.
 | File        | Extract it from | Chip revision | SHA-1 (as listed in MAME)                  |
 |-------------|-----------------|---------------|--------------------------------------------|
 | `sc01a.bin` | `votrsc01a.zip` | SC-01-A       | `1d6da90b1807a01b5e186ef08476119a862b5e6d` |
-| `sc01.bin`  | `votrsc01.zip`  | SC-01         | `268b5884dce04e49e2376df3e2dc82e852b708c1` |
 
-**Use `sc01a.bin`. DO NOT USE `sc01.bin`.** (`sc01a.bin` is the one VotraxSpeak is set up for, and it is used first when both are present.)
+`sc01a.bin` is the only ROM VotraxSpeak accepts. MAME also has an older `sc01.bin` (in `votrsc01.zip`): **DO NOT USE `sc01.bin`.** The app rejects it.
 
-## Where to get them
+## Where to get it
 
-Both zips are part of MAME's ROM sets, which are available online: search for "MAME ROMs", or for
-`votrsc01a.zip` / `votrsc01.zip`. Use a MAME-compatible set (the names above are the MAME device ROM
-names) and make sure you are entitled to use it. You only need those two small zips (512 bytes of ROM
-each); none of the arcade game sets are required.
+The zip is part of MAME's ROM sets, which are available online: search for "MAME ROMs", or for
+`votrsc01a.zip`. Use a MAME-compatible set (the names above are the MAME device ROM
+names) and make sure you are entitled to use it. You only need that one small zip (512 bytes of ROM);
+none of the arcade game sets are required.
 Copy the **.bin** file out of the zip; the app does not read zip files.
 
 Check a dump with:

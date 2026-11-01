@@ -32,7 +32,7 @@ internal static class UsageText
           -s, --speed <{0}-{1}>   Chip clock as a percentage of the nominal 720 kHz (default {2}).
                                  As on the real chip, a faster clock also raises the pitch.
           -p, --pitch <{3}-{4}>      Inflection level; higher is higher pitched (default {5}).
-          -r, --rom <path>       Phoneme ROM image (default: sc01a.bin, then sc01.bin, next to
+          -r, --rom <path>       Phoneme ROM image (default: sc01a.bin, next to
                                  the app or in the current directory).
           -h, --help             Show this help.
           @                      Treat everything after this as text, even if it starts with '-'.

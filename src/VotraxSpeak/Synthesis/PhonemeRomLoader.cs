@@ -29,7 +29,7 @@ internal static class PhonemeRomLoader
         if (!KnownRomImages.All.Any(known => string.Equals(known.Sha256, fingerprint, StringComparison.Ordinal)))
         {
             throw new InvalidRomException(
-                $"'{path}' is not a known Votrax SC-01 phoneme ROM (SHA-256 {fingerprint}). Use MAME's sc01a.bin or sc01.bin.");
+                $"'{path}' is not a known Votrax SC-01 phoneme ROM (SHA-256 {fingerprint}). Use MAME's sc01a.bin (from votrsc01a.zip); sc01.bin is not accepted.");
         }
 
         return new PhonemeRom(image);
