@@ -40,7 +40,7 @@ The Votrax SC-01 ROM is copyrighted firmware and is **never** bundled:
 * the script excludes `*.bin` from the files it installs.
 
 Instead, setup has an optional **Votrax SC-01 phoneme ROM** page. There the user picks their own
-`sc01a.bin` (`sc01.bin` also works but is not needed), and setup copies it into the install folder, where VotraxSpeak finds it
+`sc01a.bin` (do not use `sc01.bin`), and setup copies it into the install folder, where VotraxSpeak finds it
 automatically. For a silent install, pass `/ROM=<path>`:
 
 ```console

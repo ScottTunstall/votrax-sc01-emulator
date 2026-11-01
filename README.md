@@ -71,7 +71,7 @@ MAME-compatible set and are entitled to use it. The two ROMs are tiny, standalon
 | Zip to download   | File inside it | Chip revision | Size      | Needed? |
 |-------------------|----------------|---------------|-----------|---------|
 | `votrsc01a.zip`   | `sc01a.bin`    | SC-01-A       | 512 bytes | **Use this one.** It is the default and the one most arcade boards used |
-| `votrsc01.zip`    | `sc01.bin`     | SC-01         | 512 bytes | Not needed. Only if you want the original chip, selected with `--rom` |
+| `votrsc01.zip`    | `sc01.bin`     | SC-01         | 512 bytes | **DO NOT USE `sc01.bin`.** Use `sc01a.bin` from `votrsc01a.zip` |
 
 You do not need the arcade game sets, `votrax.zip`, or any other zip. Extract the `.bin` from the zip.
 You only need `sc01a.bin`. The app checks the file's hash and refuses anything
@@ -116,7 +116,7 @@ VotraxSpeak -s 130 -p 2 "Danger, danger!"
 VotraxSpeak -f hello.wav "Hello, world!"
 
 :: Use a ROM somewhere else
-VotraxSpeak --rom D:\mame\roms\sc01.bin "Using the original SC-01"
+VotraxSpeak --rom D:mameomssc01a.bin "Using a ROM somewhere else"
 
 :: Text that starts with a dash
 VotraxSpeak @ "-5 degrees outside"

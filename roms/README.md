@@ -11,7 +11,7 @@ own dump into this folder.
 | `sc01a.bin` | `votrsc01a.zip` | SC-01-A       | `1d6da90b1807a01b5e186ef08476119a862b5e6d` |
 | `sc01.bin`  | `votrsc01.zip`  | SC-01         | `268b5884dce04e49e2376df3e2dc82e852b708c1` |
 
-You only need `sc01a.bin`; pick that one. `sc01.bin` is an optional alternative (the original chip), and `sc01a.bin` is used when both are present.
+**Use `sc01a.bin`. DO NOT USE `sc01.bin`.** (`sc01a.bin` is the one VotraxSpeak is set up for, and it is used first when both are present.)
 
 ## Where to get them
 
