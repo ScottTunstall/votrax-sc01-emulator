@@ -29,6 +29,12 @@ internal static class CommandLineSwitches
     /// <summary>Long form of <see cref="RomShort"/>.</summary>
     public const string RomLong = "--rom";
 
+    /// <summary>Speak a list of phoneme names exactly as given, instead of text.</summary>
+    public const string Phonemes = "--phonemes";
+
+    /// <summary>Speak a list of phonemes spelled the way the Gorf arcade source spells them, instead of text.</summary>
+    public const string Gorf = "--gorf";
+
     /// <summary>Show usage.</summary>
     public const string HelpShort = "-h";
 

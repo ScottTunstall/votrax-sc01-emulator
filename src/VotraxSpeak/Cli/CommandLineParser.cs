@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using VotraxSpeak.Phonetics;
 using VotraxSpeak.Speech;
 
 namespace VotraxSpeak.Cli;
@@ -80,6 +81,16 @@ internal static class CommandLineParser
                 builder.SetRomPath(RequirePath(cursor, argument));
                 break;
 
+            case CommandLineSwitches.Phonemes:
+                cursor.MoveNext();
+                builder.SetPhonemes(RequirePhonemes(cursor, argument, PhonemeDialect.Votrax));
+                break;
+
+            case CommandLineSwitches.Gorf:
+                cursor.MoveNext();
+                builder.SetPhonemes(RequirePhonemes(cursor, argument, PhonemeDialect.Gorf));
+                break;
+
             case CommandLineSwitches.SpeedShort or CommandLineSwitches.SpeedLong:
                 cursor.MoveNext();
                 builder.SetSpeed(RequireInteger(cursor, argument, VoiceLimits.MinimumSpeedPercent, VoiceLimits.MaximumSpeedPercent));
@@ -111,6 +122,20 @@ internal static class CommandLineParser
         }
 
         return path;
+    }
+
+    private static IReadOnlyList<PhonemeCue> RequirePhonemes(ArgumentCursor cursor, string option, PhonemeDialect dialect)
+    {
+        string list = RequireValue(cursor, option);
+
+        try
+        {
+            return PhonemeListParser.Parse(list, dialect);
+        }
+        catch (PhonemeListException exception)
+        {
+            throw new CommandLineException($"Option '{option}': {exception.Message}", exception);
+        }
     }
 
     private static int RequireInteger(ArgumentCursor cursor, string option, int minimum, int maximum)

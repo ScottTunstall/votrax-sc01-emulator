@@ -16,10 +16,18 @@ internal static class UsageText
         CultureInfo.InvariantCulture,
         """
         Usage: VotraxSpeak [options] [--] <text>
+               VotraxSpeak [options] --phonemes <names>
+               VotraxSpeak [options] --gorf <names>
 
         Speaks <text> through an emulation of the Votrax SC-01 speech chip (ported from MAME).
 
         Options:
+          --phonemes <names>     Speak these Votrax phoneme names exactly, instead of text. Names are
+                                 the data-sheet ones (EH3 A1 K AE1 PA1 ...), separated by spaces or
+                                 commas. HI or UP after a name sets its inflection bits ($80, $40).
+                                 Nothing is added: include the PA1 pauses yourself.
+          --gorf <names>         The same, with the names spelled as in the Gorf arcade source (pA2 K0 pAE
+                                 ...); case matters there (pA1 and PA1 differ).
           -f, --file <path>      Write the speech to a WAV file instead of playing it.
           -s, --speed <{0}-{1}>   Chip clock as a percentage of the nominal 720 kHz (default {2}).
                                  As on the real chip, a faster clock also raises the pitch.
@@ -36,6 +44,8 @@ internal static class UsageText
           VotraxSpeak "I am a Votrax speech synthesizer."
           VotraxSpeak -s 120 -p 2 Hello there
           VotraxSpeak -f hello.wav "Hello, world!"
+          VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
+          VotraxSpeak --gorf "PA1 I0 N S ER T PA1 K0 O1 UH3 I3 AY N N PA1"
 
         """,
         VoiceLimits.MinimumSpeedPercent,

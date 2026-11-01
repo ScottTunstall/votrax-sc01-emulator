@@ -1,3 +1,4 @@
+using System.Linq;
 using VotraxSpeak.Cli;
 using VotraxSpeak.Speech;
 using Xunit;
@@ -104,6 +105,37 @@ public sealed class CommandLineParserTests
 
     [Fact]
     public void RejectsAnUnknownOption() => Assert.Contains("Unknown option '-x'", ParseError("-x", "Hi"), System.StringComparison.Ordinal);
+
+    [Fact]
+    public void ReadsPhonemesInPlaceOfText()
+    {
+        CommandLineOptions options = ParseSuccessfully("--phonemes", "PA1 N PA1");
+
+        Assert.NotNull(options.Phonemes);
+        Assert.Equal(3, options.Phonemes.Count);
+        Assert.Equal(string.Empty, options.Text);
+    }
+
+    [Fact]
+    public void RejectsPhonemesTogetherWithText() =>
+        Assert.Contains("not both", ParseError("--phonemes", "N", "Hello"), System.StringComparison.Ordinal);
+
+    [Fact]
+    public void ReportsAnUnknownPhonemeName() =>
+        Assert.Contains("'--phonemes'", ParseError("--phonemes", "N BOGUS"), System.StringComparison.Ordinal);
+
+    [Fact]
+    public void ReadsGorfPhonemesInPlaceOfText()
+    {
+        CommandLineOptions options = ParseSuccessfully("--gorf", "PA1 pAE K0");
+
+        Assert.NotNull(options.Phonemes);
+        Assert.Equal<byte>([0x3E, 0x2E, 0x19], options.Phonemes.Select(cue => (byte)cue.Phoneme));
+    }
+
+    [Fact]
+    public void ReportsAnUnknownGorfName() =>
+        Assert.Contains("'--gorf'", ParseError("--gorf", "N AE"), System.StringComparison.Ordinal);
 
     private static CommandLineOptions ParseSuccessfully(params string[] arguments)
     {

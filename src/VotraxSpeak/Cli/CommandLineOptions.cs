@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using VotraxSpeak.Phonetics;
 using VotraxSpeak.Speech;
 
 namespace VotraxSpeak.Cli;
@@ -15,8 +17,16 @@ internal sealed class CommandLineOptions
     /// <param name="outputFile">The WAV file to write instead of playing, if any.</param>
     /// <param name="romPath">The phoneme ROM to use instead of the default, if any.</param>
     /// <param name="showHelp">Whether the user asked for usage information.</param>
-    public CommandLineOptions(string text, VoiceSettings voice, string? outputFile, string? romPath, bool showHelp)
+    /// <param name="phonemes">The phonemes to speak exactly as given instead of <paramref name="text"/>, if any.</param>
+    public CommandLineOptions(
+        string text,
+        VoiceSettings voice,
+        string? outputFile,
+        string? romPath,
+        bool showHelp,
+        IReadOnlyList<PhonemeCue>? phonemes)
     {
+        Phonemes = phonemes;
         Text = text;
         Voice = voice;
         OutputFile = outputFile;
@@ -26,6 +36,9 @@ internal sealed class CommandLineOptions
 
     /// <summary>Gets the text to speak.</summary>
     public string Text { get; }
+
+    /// <summary>Gets the phonemes to speak exactly as given, or <see langword="null"/> to speak <see cref="Text"/>.</summary>
+    public IReadOnlyList<PhonemeCue>? Phonemes { get; }
 
     /// <summary>Gets the voice controls.</summary>
     public VoiceSettings Voice { get; }

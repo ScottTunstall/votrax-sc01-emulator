@@ -37,7 +37,17 @@ internal static class Program
     {
         try
         {
-            CreatePipeline(options).Speak(options.Text, options.Voice);
+            TextToSpeechPipeline pipeline = CreatePipeline(options);
+
+            if (options.Phonemes is null)
+            {
+                pipeline.Speak(options.Text, options.Voice);
+            }
+            else
+            {
+                pipeline.Speak(options.Phonemes, options.Voice);
+            }
+
             return ExitCode.Success;
         }
         catch (Exception exception) when (exception is RomNotFoundException or InvalidRomException)

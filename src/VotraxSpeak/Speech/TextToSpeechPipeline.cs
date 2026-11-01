@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using VotraxSpeak.Audio;
 using VotraxSpeak.Phonetics;
 using VotraxSpeak.Synthesis;
@@ -35,7 +36,18 @@ internal sealed class TextToSpeechPipeline
     public void Speak(string text, VoiceSettings voice)
     {
         IReadOnlyList<VotraxPhoneme> phonemes = _converter.Convert(text);
-        AudioClip speech = _renderer.Render(phonemes, voice);
+        Speak([.. phonemes.Select(phoneme => new PhonemeCue(phoneme, null))], voice);
+    }
+
+    /// <summary>
+    /// Speaks exactly <paramref name="cues"/> to the output, returning once they have been delivered.
+    /// No text conversion or pause tidying is applied.
+    /// </summary>
+    /// <param name="cues">The phonemes to send to the chip, in order.</param>
+    /// <param name="voice">The voice controls.</param>
+    public void Speak(IReadOnlyList<PhonemeCue> cues, VoiceSettings voice)
+    {
+        AudioClip speech = _renderer.Render(cues, voice);
         _output.Deliver(PeakNormalizer.Normalize(speech));
     }
 }

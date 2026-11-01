@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using VotraxSpeak.Audio;
-using VotraxSpeak.Synthesis;
+using VotraxSpeak.Phonetics;
 
 namespace VotraxSpeak.Speech;
 
@@ -10,10 +10,10 @@ namespace VotraxSpeak.Speech;
 internal interface ISpeechRenderer
 {
     /// <summary>
-    /// Returns the audio the chip produces when it is fed <paramref name="phonemes"/>.
+    /// Returns the audio the chip produces when it is fed <paramref name="cues"/>.
     /// </summary>
-    /// <param name="phonemes">The phonemes, in order.</param>
+    /// <param name="cues">The phonemes, in order, with any per-phoneme inflection.</param>
     /// <param name="voice">The chip's voice controls.</param>
     /// <returns>The rendered audio.</returns>
-    AudioClip Render(IReadOnlyList<VotraxPhoneme> phonemes, VoiceSettings voice);
+    AudioClip Render(IReadOnlyList<PhonemeCue> cues, VoiceSettings voice);
 }

@@ -1,12 +1,12 @@
 # Votrax SC01 Emulator
 
-A Windows console app that speaks English text through a sample-accurate emulation of the
+A Windows program that speaks English text, or hand-written phonemes, through an accurate emulation of the
 **Votrax SC-01** speech chip, the voice of Q\*bert, Gorf, Wizard of Wor and many 1980s speech boards.
 
 The chip emulation is a C# port of MAME's
 [`votrax.cpp`](https://github.com/mamedev/mame/blob/master/src/devices/sound/votrax.cpp) by Olivier
 Galibert. On top of it is an English text-to-phoneme converter based on the US Naval Research Lab's
-letter-to-sound rules. The app builds for both **.NET Framework 4.8** and **.NET 10**.
+letter-to-sound rules. It builds for both **.NET Framework 4.8** and **.NET 10**, and has installers for each.
 
 ```console
 VotraxSpeak "I am a Votrax speech synthesizer."
@@ -19,6 +19,7 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 - [Quick setup](#quick-setup)
 - [The phoneme ROM](#the-phoneme-rom)
 - [Usage](#usage)
+  - [Speaking raw phonemes](#speaking-raw-phonemes)
 - [Speed and pitch](#speed-and-pitch)
 - [Building the Solution](#building-the-solution)
 - [How it works](docs/how-it-works.md)
@@ -28,36 +29,36 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 
 ## Quick setup
 
-No programming tools needed. 
+You don't need any programming tools.
 
-1. **Download an installer** from the
-   [latest release](https://github.com/ScottTunstall/votrax-sc01-emulator/releases/latest):
+1. **Download the installer.** Go to the
+   [latest release](https://github.com/ScottTunstall/votrax-sc01-emulator/releases/latest) and click
+   **`VotraxSpeakSetup-net10.exe`**. If you are not sure which one to pick, pick this one.
 
-   | Installer                    | Choose it if |
-   |------------------------------|--------------|
-   | `VotraxSpeakSetup-net10.exe` | You have 64-bit Windows 10 or 11 (the usual case). It installs the .NET 10 runtime for you if it is missing. |
-   | `VotraxSpeakSetup-net48.exe` | You have an older or 32-bit Windows with .NET Framework 4.8 (built into Windows 10+ from the May 2019 update). |
+   *(Only if you have a very old or 32-bit Windows: use `VotraxSpeakSetup-net48.exe` instead.)*
 
-   Both do the same thing. Windows SmartScreen may warn that the installer is unrecognised, because it
-   is not code-signed; choose **More info**, then **Run anyway**.
+2. **Get the chip's ROM file.** The program needs one small file, `sc01a.bin`, to sound like the real
+   Votrax chip. We can't include it because it is copyrighted. It is in a free download called
+   `votrsc01a.zip`, which is part of the MAME ROM sets you can find online (see
+   [The phoneme ROM](#the-phoneme-rom)). Open the zip and take `sc01a.bin` out of it.
 
-2. **Get the speech chip's ROM.** It is copyrighted, so it can't be bundled. Download `votrsc01a.zip`
-   from a MAME ROM set (see [The phoneme ROM](#the-phoneme-rom)) and extract `sc01a.bin` from it.
+3. **Run the installer.** Double-click the file you downloaded.
+   - If Windows says **"Windows protected your PC"**, click **More info**, then **Run anyway**. This
+     happens with any new program that isn't from a big company.
+   - When it asks for the chip ROM, click **Browse** and choose `sc01a.bin`.
+   - Leave **Add VotraxSpeak to the PATH** ticked. Then click through to the end.
 
-3. **Run the installer.** On the *Votrax SC-01 phoneme ROM* page, choose your `sc01a.bin`. Leave
-   *Add VotraxSpeak to the PATH* ticked so the command works from any Command Prompt.
-
-4. **Open a new Command Prompt and speak:**
+4. **Make it talk.** Press the Windows key, type `cmd`, and press Enter. In the black window, type this
+   and press Enter:
 
    ```console
    VotraxSpeak "Hello, world!"
    ```
 
-   To save the speech as a WAV file instead of playing it: `VotraxSpeak -f hello.wav "Hello, world!"`.
-   See [Usage](#usage) for speed and pitch.
+   You should hear the speech. Change the words between the quotes to say anything you like.
 
-To remove it, uninstall *VotraxSpeak* from Windows Settings > Apps. More detail:
-[`installer/README.md`](installer/README.md).
+To save the speech as a sound file instead, type `VotraxSpeak -f hello.wav "Hello, world!"`. See
+[Usage](#usage) for more. To remove the program, uninstall *VotraxSpeak* in Windows Settings > Apps.
 
 ## The phoneme ROM
 
@@ -87,6 +88,8 @@ VotraxSpeak [options] [--] <text>
 | Option                 | Meaning |
 |------------------------|---------|
 | `<text>`               | **Required.** The text to speak. Quote it, or pass several words, which are joined with spaces. |
+| `--phonemes <names>`   | Speak a phoneme list exactly as written, instead of text (see [Speaking raw phonemes](#speaking-raw-phonemes)). |
+| `--gorf <names>`       | The same, with the names spelled as in the Gorf arcade source. |
 | `-f, --file <path>`    | Write the speech to a WAV file instead of playing it. |
 | `-s, --speed <25-400>` | Chip clock as a percentage of the nominal 720 kHz. Default `100`. |
 | `-p, --pitch <0-3>`    | Inflection level; higher is higher pitched. Default `0`. |
@@ -116,10 +119,36 @@ VotraxSpeak --rom D:\mame\roms\sc01.bin "Using the original SC-01"
 
 :: Text that starts with a dash
 VotraxSpeak -- "-5 degrees outside"
+
+:: Exact phonemes instead of text (see Speaking raw phonemes)
+VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
 ```
 
 Numbers, decimals and thousands separators are read out ("1,905.5" becomes "one thousand nine hundred
 five point five"), as are `&`, `%`, `+`, `=` and `@`. Commas and full stops make longer pauses.
+
+### Speaking raw phonemes
+
+`--phonemes` (or `--gorf`, below) skips the text-to-phoneme step and sends the phonemes you list straight to the chip, so you
+can reproduce hand-written speech such as the arcade games' own data. For example, Gorf's "Insert coin."
+(from the [Gorf disassembly](https://github.com/tinymouse42/Gorf_Disassembly)):
+
+```console
+VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
+VotraxSpeak --gorf "PA1 I0 N S ER T PA1 K0 O1 UH3 I3 AY N N PA1"
+```
+
+- Names are the SC-01 data-sheet names, as used by MAME, separated by spaces or commas, in any case:
+  `EH3 EH2 EH1 PA0 DT A1 A2 ZH AH2 I3 I2 I1 M N B V CH SH Z AW1 NG AH1 OO1 OO L K J H G F D S A AY Y1
+  UH3 AH P O I U Y T R E W AE AE1 AW2 UH2 UH1 UH O2 O1 IU U1 THV TH ER EH E1 AW PA1 STOP`.
+- `--gorf` takes the names as the Gorf source spells them (to avoid clashing with Forth numbers): `pA2` is `A1`,
+  `pA1` is `A2`, `K0`/`J0`/`I0` are `K`/`J`/`I`, and the other `p` names (`pB pF pD pA pE pAE pAE1 pE1`)
+  just drop the `p`. The codes are the same, so the two lines above sound identical. Gorf names are
+  case-sensitive, because `pA1` (code `06`) and `PA1` (`3E`) differ.
+- `HI` or `UP` after a name sets that phoneme's inflection bits (`$80` and `$40` in the Gorf data), as
+  in `I1 UP Y UP AE`. Phonemes without one use `--pitch`.
+- Nothing is added or tidied, so include the `PA1` pauses yourself. You cannot give both text and
+  `--phonemes` or `--gorf`.
 
 ### Exit codes
 
@@ -154,7 +183,7 @@ next to the executable.
 
 ```console
 dotnet build              :: both target frameworks
-dotnet test               :: 66 tests on each framework
+dotnet test               :: 87 tests on each framework
 installer\build.ps1       :: VotraxSpeakSetup-net48.exe and VotraxSpeakSetup-net10.exe
 ```
 

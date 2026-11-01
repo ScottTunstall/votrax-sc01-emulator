@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using VotraxSpeak.Audio;
+using VotraxSpeak.Phonetics;
 using VotraxSpeak.Synthesis;
 
 namespace VotraxSpeak.Speech;
@@ -23,16 +24,15 @@ internal sealed class VotraxSpeechRenderer : ISpeechRenderer
     }
 
     /// <inheritdoc/>
-    public AudioClip Render(IReadOnlyList<VotraxPhoneme> phonemes, VoiceSettings voice)
+    public AudioClip Render(IReadOnlyList<PhonemeCue> cues, VoiceSettings voice)
     {
         var chip = new VotraxSc01Chip(_rom, voice.ClockHz);
-        chip.SetInflection(voice.Pitch);
-
         var samples = new List<float>();
 
-        foreach (VotraxPhoneme phoneme in phonemes)
+        foreach (PhonemeCue cue in cues)
         {
-            chip.Write(phoneme);
+            chip.SetInflection(cue.Inflection ?? voice.Pitch);
+            chip.Write(cue.Phoneme);
             RenderUntilRequest(chip, samples);
         }
 
