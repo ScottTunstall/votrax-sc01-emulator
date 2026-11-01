@@ -5,7 +5,7 @@ Builds two normal `setup.exe` installers for VotraxSpeak, one for each target fr
 | Installer                    | Program built for              | Runs on |
 |------------------------------|--------------------------------|---------|
 | `VotraxSpeakSetup-net48.exe` | .NET Framework 4.8             | Any Windows with .NET Framework 4.8 (built into Windows 10 1903 and later) |
-| `VotraxSpeakSetup-net10.exe` | .NET 10, framework-dependent   | 64-bit Windows; fetches the .NET 10 runtime if it is missing |
+| `VotraxSpeakSetup-net10.exe` | .NET 10, framework-dependent   | 64-bit Windows; needs the .NET 10 runtime, and offers a link to it if it is missing |
 
 Each installs the program under `Program Files`, adds it to the PATH so `VotraxSpeak` works from any
 Command Prompt, and registers an entry in "Installed apps" / "Programs and Features" so it can be
@@ -57,10 +57,8 @@ is deleted on a normal uninstall.
 * Offers to add that folder to the machine `PATH` (checked by default).
 * Adds a Start menu shortcut that opens a Command Prompt in the install folder, showing `--help`.
 * **.NET Framework 4.8 installer:** stops with an explanation if .NET Framework 4.8 is not installed,
-  since a script cannot install it.
-* **.NET 10 installer:** runs Microsoft's `dotnet-install.ps1` to install the .NET 10 runtime if it is
-  not already there, exactly as CDGFromYoutube's installer does. If that fails (for example with no
-  internet), the program still installs, and Windows shows its own "you need .NET" prompt on first run.
+  since setup does not download it.
+* **.NET 10 installer:** checks that the .NET 10 runtime is installed. If it is not, it asks whether to open Microsoft's download page (setup carries on either way). It does not download or run anything itself: a hidden PowerShell download step is what made antivirus software flag it.
 * Removes any previously installed version first, so files it no longer ships are not left behind.
 
 ## What it does not do

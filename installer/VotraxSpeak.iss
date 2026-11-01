@@ -90,16 +90,10 @@ Name: "{group}\{#MyAppName} Command Prompt"; Filename: "{cmd}"; \
     IconFilename: "{app}\{#MyAppExeName}"
 Name: "{group}\Uninstall {#MyAppName}"; Filename: "{uninstallexe}"
 
-#if TargetFramework == "net10.0"
-[Run]
-; Fetches the .NET 10 runtime if it is missing, using Microsoft's own install script (the same approach
-; as CDGFromYoutube). A failure here is only logged; the program still installs, and Windows offers the
-; runtime download the first time it is run without one, as for any other .NET program.
-Filename: "{sys}\WindowsPowerShell\v1.0\powershell.exe"; \
-    Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{tmp}\install-dotnet-runtime.ps1"""; \
-    StatusMsg: "Checking for the .NET 10 runtime..."; \
-    Flags: runhidden waituntilterminated
-#endif
+; The .NET 10 build needs the .NET 10 runtime. This installer deliberately does not download or install
+; it itself: a setup program that quietly runs a hidden PowerShell to fetch and run a script is exactly
+; what antivirus software flags as a downloader. It checks for the runtime and, if it is missing, offers
+; to open Microsoft's download page instead (see [Code]).
 
 [Code]
 const
@@ -107,6 +101,7 @@ const
   NetFrameworkKey = 'SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full';
   { The "Release" value Microsoft documents for .NET Framework 4.8. }
   NetFramework48Release = 528040;
+  DotNetRuntimeKey = 'SOFTWARE\dotnet\Setup\InstalledVersions\x64\sharedfx\Microsoft.NETCore.App';
   RomImageSize = 512;
   RomFileNameA = 'sc01a.bin';
   RomFileName = 'sc01.bin';
@@ -151,15 +146,61 @@ begin
 end;
 
 #if TargetFramework == "net48"
-{ The .NET Framework build cannot run without .NET Framework 4.8, and unlike .NET 10 it cannot be
-  fetched by a script, so setup stops with an explanation instead of installing a program that will
-  not start. Windows 10 (May 2019 Update) and later include it. }
+{ The .NET Framework build cannot run without .NET Framework 4.8, so setup stops with an explanation
+  instead of installing a program that will not start. Windows 10 (May 2019 Update) and later include it. }
 function IsNetFramework48Installed(): Boolean;
 var
   Release: Cardinal;
 begin
   Result := RegQueryDWordValue(HKLM, NetFrameworkKey, 'Release', Release)
       and (Release >= NetFramework48Release);
+end;
+#endif
+
+#if TargetFramework == "net10.0"
+{ The installed .NET runtimes are listed as value names ("10.0.0" and so on) under this key. The x64
+  runtime's installer registers it in the 32-bit registry view, hence HKLM32. }
+function IsDotNet10RuntimeRegistered(): Boolean;
+var
+  Versions: TArrayOfString;
+  I: Integer;
+begin
+  Result := False;
+  if RegGetValueNames(HKLM32, DotNetRuntimeKey, Versions) then
+    for I := 0 to GetArrayLength(Versions) - 1 do
+      if Pos('10.', Versions[I]) = 1 then
+      begin
+        Result := True;
+        Exit;
+      end;
+end;
+
+{ A runtime that was unzipped or installed without registering itself still sits in this folder. }
+function IsDotNet10RuntimeFolderPresent(): Boolean;
+var
+  FindRec: TFindRec;
+begin
+  Result := FindFirst(ExpandConstant('{commonpf64}\dotnet\shared\Microsoft.NETCore.App\10.*'), FindRec);
+  if Result then
+    FindClose(FindRec);
+end;
+
+function IsDotNet10RuntimeInstalled(): Boolean;
+begin
+  Result := IsDotNet10RuntimeRegistered() or IsDotNet10RuntimeFolderPresent();
+end;
+
+{ Setup carries on either way, because the runtime can be installed afterwards; this only tells the
+  user what is missing and takes them to Microsoft's download page if they want. A silent install
+  answers No, so nothing is ever opened unattended. }
+procedure OfferDotNet10Download();
+var
+  ErrorCode: Integer;
+begin
+  if SuppressibleMsgBox('{#MyAppName} needs the .NET 10 runtime, which is not installed on this computer.' + #13#10#13#10 +
+      'Open Microsoft''s download page now? Choose the ".NET Runtime" for x64 under Windows, install it, and ' +
+      '{#MyAppName} will work. Setup will carry on either way.', mbConfirmation, MB_YESNO, IDNO) = IDYES then
+    ShellExec('open', 'https://dotnet.microsoft.com/download/dotnet/10.0', '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 #endif
 
@@ -174,6 +215,10 @@ begin
     Result := False;
     Exit;
   end;
+#endif
+#if TargetFramework == "net10.0"
+  if not IsDotNet10RuntimeInstalled() then
+    OfferDotNet10Download();
 #endif
 
   UninstallPreviousVersion();
@@ -303,37 +348,8 @@ begin
   RegWriteExpandStringValue(HKEY_LOCAL_MACHINE, EnvironmentKey, 'Path', Path);
 end;
 
-#if TargetFramework == "net10.0"
-{ Writes the PowerShell script that [Run] executes, rather than an inline one-liner, so quoting and
-  error reporting do not have to fight Inno's own command line escaping. }
-procedure CreateDotNetInstallScript();
-var
-  Lines: TArrayOfString;
-begin
-  SetArrayLength(Lines, 12);
-  Lines[0] := '$ErrorActionPreference = ''Stop''';
-  Lines[1] := 'try {';
-  Lines[2] := '    if (Get-Command dotnet -ErrorAction SilentlyContinue) {';
-  Lines[3] := '        $has10 = & dotnet --list-runtimes 2>$null | Select-String ''Microsoft\.NETCore\.App 10\.''';
-  Lines[4] := '        if ($has10) { exit 0 }';
-  Lines[5] := '    }';
-  Lines[6] := '    $script = Join-Path $env:TEMP ''dotnet-install.ps1''';
-  Lines[7] := '    Invoke-WebRequest -Uri ''https://dot.net/v1/dotnet-install.ps1'' -OutFile $script -UseBasicParsing';
-  Lines[8] := '    & $script -Channel 10.0 -Runtime dotnet -InstallDir "$env:ProgramFiles\dotnet"';
-  Lines[9] := '} catch {';
-  Lines[10] := '    Write-Warning "Could not install the .NET 10 runtime automatically: $_"';
-  Lines[11] := '}';
-  SaveStringsToFile(ExpandConstant('{tmp}\install-dotnet-runtime.ps1'), Lines, False);
-end;
-#endif
-
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-#if TargetFramework == "net10.0"
-  if CurStep = ssInstall then
-    CreateDotNetInstallScript();
-#endif
-
   if CurStep = ssPostInstall then
   begin
     InstallRom();
