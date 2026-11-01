@@ -20,7 +20,7 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 - [The phoneme ROM](#the-phoneme-rom)
 - [Usage](#usage)
 - [Speed and pitch](#speed-and-pitch)
-- [Building](#building)
+- [Building the Solution](#building-the-solution)
 - [How it works](docs/how-it-works.md)
 - [Licensing](#licensing)
 
