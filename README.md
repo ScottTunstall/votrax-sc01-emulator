@@ -28,7 +28,7 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 
 ## Quick setup
 
-No programming tools needed. You download an installer, then point it at one ROM file.
+No programming tools needed. 
 
 1. **Download an installer** from the
    [latest release](https://github.com/ScottTunstall/votrax-sc01-emulator/releases/latest):
@@ -36,7 +36,7 @@ No programming tools needed. You download an installer, then point it at one ROM
    | Installer                    | Choose it if |
    |------------------------------|--------------|
    | `VotraxSpeakSetup-net10.exe` | You have 64-bit Windows 10 or 11 (the usual case). It installs the .NET 10 runtime for you if it is missing. |
-   | `VotraxSpeakSetup-net48.exe` | You have an older or 32-bit Windows with .NET Framework 4.8 (built into Windows 10 from the May 2019 update). |
+   | `VotraxSpeakSetup-net48.exe` | You have an older or 32-bit Windows with .NET Framework 4.8 (built into Windows 10+ from the May 2019 update). |
 
    Both do the same thing. Windows SmartScreen may warn that the installer is unrecognised, because it
    is not code-signed; choose **More info**, then **Run anyway**.
@@ -142,7 +142,7 @@ The real chip has two voice controls, and the switches drive them directly:
 - **Pitch** is the chip's two-bit inflection input. It moves the pitch in four steps and leaves the
   timing alone.
 
-## Building
+## Building the Solution
 
 Only needed if you want to change the code; everyone else should use the [installers](#quick-setup).
 
