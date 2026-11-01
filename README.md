@@ -47,14 +47,17 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 ## The phoneme ROM
 
 The SC-01 keeps its phoneme parameters in an internal 512-byte ROM. That ROM is copyrighted firmware, so
-it is **not** in this repository or in the installers. Use the dump from your own MAME ROM set:
+it is **not** in this repository or in the installers. The dumps are part of MAME's ROM sets, which
+are available online (search for "MAME ROMs", or for the zip names below). Make sure you have a
+MAME-compatible set and are entitled to use it. The two ROMs are tiny, standalone zips in that set:
 
-| File        | From MAME set   | Chip revision |
-|-------------|-----------------|---------------|
-| `sc01a.bin` | `votrsc01a.zip` | SC-01-A       |
-| `sc01.bin`  | `votrsc01.zip`  | SC-01         |
+| Zip to download   | File inside it | Chip revision | Size      | Needed? |
+|-------------------|----------------|---------------|-----------|---------|
+| `votrsc01a.zip`   | `sc01a.bin`    | SC-01-A       | 512 bytes | One of the two is enough; the SC-01-A is the default and the one most arcade boards used |
+| `votrsc01.zip`    | `sc01.bin`     | SC-01         | 512 bytes | Optional; the original chip, selectable with `--rom` |
 
-Extract the `.bin` from the zip. Either file works. The app checks the file's hash and refuses anything
+You do not need the arcade game sets, `votrax.zip`, or any other zip. Extract the `.bin` from the zip.
+Either file works. The app checks the file's hash and refuses anything
 that is not one of these dumps. [`roms/README.md`](roms/README.md) lists the hashes.
 
 VotraxSpeak uses `--rom <path>` if given. Otherwise it looks for `sc01a.bin`, then `sc01.bin`, next to

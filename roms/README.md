@@ -11,7 +11,14 @@ own dump into this folder.
 | `sc01a.bin` | `votrsc01a.zip` | SC-01-A       | `1d6da90b1807a01b5e186ef08476119a862b5e6d` |
 | `sc01.bin`  | `votrsc01.zip`  | SC-01         | `268b5884dce04e49e2376df3e2dc82e852b708c1` |
 
-Either file is enough. `sc01a.bin` is used when both are present. Both zips come from a MAME ROM set.
+Either file is enough. `sc01a.bin` is used when both are present.
+
+## Where to get them
+
+Both zips are part of MAME's ROM sets, which are available online: search for "MAME ROMs", or for
+`votrsc01a.zip` / `votrsc01.zip`. Use a MAME-compatible set (the names above are the MAME device ROM
+names) and make sure you are entitled to use it. You only need those two small zips (512 bytes of ROM
+each); none of the arcade game sets are required.
 Copy the **.bin** file out of the zip; the app does not read zip files.
 
 Check a dump with:
