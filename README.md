@@ -16,33 +16,48 @@ VotraxSpeak "I am a Votrax speech synthesizer."
 
 ## Contents
 
-- [Getting started](#getting-started)
+- [Quick setup](#quick-setup)
 - [The phoneme ROM](#the-phoneme-rom)
 - [Usage](#usage)
 - [Speed and pitch](#speed-and-pitch)
-- [Building from source](#building-from-source)
+- [Building](#building)
 - [How it works](#how-it-works)
 - [Licensing](#licensing)
 
 ---
 
-## Getting started
+## Quick setup
 
-1. **Get the ROM.** The emulator needs the chip's internal phoneme ROM, which is not included (see
-   [The phoneme ROM](#the-phoneme-rom)).
-2. **Install or build VotraxSpeak.**
-   - *With an installer:* build them with `installer\build.ps1`, then run
-     `VotraxSpeakSetup-net10.exe` (needs 64-bit Windows; installs the .NET 10 runtime if it is missing) or
-     `VotraxSpeakSetup-net48.exe` (any Windows with .NET Framework 4.8). Setup asks for your ROM, copies
-     it into the install folder, and can add VotraxSpeak to the PATH. See
-     [`installer/README.md`](installer/README.md).
-   - *From source:* put the ROM in [`roms/`](roms/README.md) and run `dotnet build`; the ROM is copied
-     next to the executable.
-3. **Speak:**
+No programming tools needed. You download an installer, then point it at one ROM file.
+
+1. **Download an installer** from the
+   [latest release](https://github.com/ScottTunstall/votrax-sc01-emulator/releases/latest):
+
+   | Installer                    | Choose it if |
+   |------------------------------|--------------|
+   | `VotraxSpeakSetup-net10.exe` | You have 64-bit Windows 10 or 11 (the usual case). It installs the .NET 10 runtime for you if it is missing. |
+   | `VotraxSpeakSetup-net48.exe` | You have an older or 32-bit Windows with .NET Framework 4.8 (built into Windows 10 from the May 2019 update). |
+
+   Both do the same thing. Windows SmartScreen may warn that the installer is unrecognised, because it
+   is not code-signed; choose **More info**, then **Run anyway**.
+
+2. **Get the speech chip's ROM.** It is copyrighted, so it can't be bundled. Download `votrsc01a.zip`
+   from a MAME ROM set (see [The phoneme ROM](#the-phoneme-rom)) and extract `sc01a.bin` from it.
+
+3. **Run the installer.** On the *Votrax SC-01 phoneme ROM* page, choose your `sc01a.bin`. Leave
+   *Add VotraxSpeak to the PATH* ticked so the command works from any Command Prompt.
+
+4. **Open a new Command Prompt and speak:**
 
    ```console
    VotraxSpeak "Hello, world!"
    ```
+
+   To save the speech as a WAV file instead of playing it: `VotraxSpeak -f hello.wav "Hello, world!"`.
+   See [Usage](#usage) for speed and pitch.
+
+To remove it, uninstall *VotraxSpeak* from Windows Settings > Apps. More detail:
+[`installer/README.md`](installer/README.md).
 
 ## The phoneme ROM
 
@@ -127,10 +142,15 @@ The real chip has two voice controls, and the switches drive them directly:
 - **Pitch** is the chip's two-bit inflection input. It moves the pitch in four steps and leaves the
   timing alone.
 
-## Building from source
+## Building
+
+Only needed if you want to change the code; everyone else should use the [installers](#quick-setup).
 
 Needs the .NET 10 SDK. Building the .NET Framework 4.8 target also needs Windows. Building the
 installers needs [Inno Setup 6](https://jrsoftware.org/isinfo.php).
+
+To run a build from source, put your ROM in [`roms/`](roms/README.md) first; `dotnet build` copies it
+next to the executable.
 
 ```console
 dotnet build              :: both target frameworks
