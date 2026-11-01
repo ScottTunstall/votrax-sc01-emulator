@@ -116,7 +116,7 @@ VotraxSpeak -s 130 -p 2 "Danger, danger!"
 VotraxSpeak -f hello.wav "Hello, world!"
 
 :: Use a ROM somewhere else
-VotraxSpeak --rom D:mameomssc01a.bin "Using a ROM somewhere else"
+VotraxSpeak --rom D:\mame\roms\sc01a.bin "Using a ROM somewhere else"
 
 :: Text that starts with a dash
 VotraxSpeak @ "-5 degrees outside"
