@@ -94,7 +94,7 @@ VotraxSpeak [options] [@] <text>
 | `<text>`               | **Required.** The text to speak. Quote it, or pass several words, which are joined with spaces. |
 | `--phonemes <names>`   | Speak a phoneme list exactly as written, instead of text (see [Speaking raw phonemes](docs/speaking-raw-phonemes.md)). The names can be one quoted argument or separate arguments, up to the next option. |
 | `--gorf <names>`       | The same, with the names spelled as in the [Gorf arcade source](https://github.com/tinymouse42/Gorf_Disassembly/blob/main/src/Gorf_Disassembly.asm). |
-| `-f, --file <path>`    | Write the speech to a file instead of playing it. The format follows the extension: `.ogg` writes Ogg Vorbis, anything else writes WAV. |
+| `-f, --file <path>`    | Write the speech to a file instead of playing it. The format follows the extension: `.ogg` writes Ogg Vorbis, anything else writes WAV. A name with no extension gets `.wav` added. |
 | `-s, --speed <25-400>` | Chip clock as a percentage of the nominal 720 kHz. Default `100`. |
 | `-p, --pitch <0-3>`    | Inflection level; higher is higher pitched. Default `0`. |
 | `-r, --rom <path>`     | The phoneme ROM to use. |

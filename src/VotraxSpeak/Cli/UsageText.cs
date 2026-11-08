@@ -29,7 +29,7 @@ internal static class UsageText
           --gorf <names>         The same, with the names spelled as in the Gorf arcade source (pA2 K0 pAE
                                  ...); case matters there (pA1 and PA1 differ).
           -f, --file <path>      Write the speech to a file instead of playing it: Ogg Vorbis if the name
-                                 ends in .ogg, otherwise WAV.
+                                 ends in .ogg, otherwise WAV (.wav is added if the name has no extension).
           -s, --speed <{0}-{1}>   Chip clock as a percentage of the nominal 720 kHz (default {2}).
                                  As on the real chip, a faster clock also raises the pitch.
           -p, --pitch <{3}-{4}>      Inflection level; higher is higher pitched (default {5}).
