@@ -28,7 +28,8 @@ internal static class UsageText
                                  Nothing is added: include the PA1 pauses yourself.
           --gorf <names>         The same, with the names spelled as in the Gorf arcade source (pA2 K0 pAE
                                  ...); case matters there (pA1 and PA1 differ).
-          -f, --file <path>      Write the speech to a WAV file instead of playing it.
+          -f, --file <path>      Write the speech to a file instead of playing it: Ogg Vorbis if the name
+                                 ends in .ogg, otherwise WAV.
           -s, --speed <{0}-{1}>   Chip clock as a percentage of the nominal 720 kHz (default {2}).
                                  As on the real chip, a faster clock also raises the pitch.
           -p, --pitch <{3}-{4}>      Inflection level; higher is higher pitched (default {5}).
@@ -44,8 +45,10 @@ internal static class UsageText
           VotraxSpeak "I am a Votrax speech synthesizer."
           VotraxSpeak -s 120 -p 2 Hello there
           VotraxSpeak -f hello.wav "Hello, world!"
+          VotraxSpeak -f hello.ogg "Hello, world!"
           VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
           VotraxSpeak --gorf "PA1 I0 N S ER T PA1 K0 O1 UH3 I3 AY N N PA1"
+          VotraxSpeak --gorf PA1 I0 N S ER T PA1 -f insert.ogg
 
         """,
         VoiceLimits.MinimumSpeedPercent,

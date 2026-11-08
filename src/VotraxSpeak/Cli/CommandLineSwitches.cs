@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VotraxSpeak.Cli;
 
 /// <summary>
@@ -49,4 +51,8 @@ internal static class CommandLineSwitches
 
     /// <summary>Arguments starting with this character are options.</summary>
     public const char OptionPrefix = '-';
+
+    /// <summary>Gets every long (<c>--name</c>) option, used to suggest the right spelling after a typo such as <c>-gorf</c>.</summary>
+    public static IReadOnlyList<string> LongOptions { get; } =
+        [FileLong, SpeedLong, PitchLong, RomLong, Phonemes, Gorf, HelpLong];
 }

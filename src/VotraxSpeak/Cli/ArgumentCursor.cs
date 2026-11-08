@@ -25,6 +25,9 @@ internal sealed class ArgumentCursor
     /// <summary>Gets the current argument. Only valid while <see cref="IsAtEnd"/> is false.</summary>
     public string Current => _arguments[_index];
 
+    /// <summary>Gets the argument after the current one, or <see langword="null"/> if the current one is the last.</summary>
+    public string? Next => _index + 1 < _arguments.Count ? _arguments[_index + 1] : null;
+
     /// <summary>
     /// Moves to the next argument.
     /// </summary>

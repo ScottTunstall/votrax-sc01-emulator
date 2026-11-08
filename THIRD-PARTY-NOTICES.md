@@ -45,3 +45,9 @@ C implementation.
 
 The chip's internal ROM (`sc01a.bin`) is **not** included. Supply your own dump,
 as you would for MAME.
+
+## OggVorbisEncoder
+
+Ogg Vorbis output uses the [OggVorbisEncoder](https://github.com/SteveLillis/.NET-Ogg-Vorbis-Encoder) NuGet
+package (a managed port of the Xiph.Org libvorbis encoder), distributed under the MIT license. Test projects
+decode the files with [NVorbis](https://github.com/NVorbis/NVorbis), also MIT.

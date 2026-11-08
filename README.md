@@ -58,7 +58,8 @@ You don't need any programming tools.
 
    You should hear the speech. Change the words between the quotes to say anything you like.
 
-To save the speech as a sound file instead, type `VotraxSpeak -f hello.wav "Hello, world!"`. See
+To save the speech as a sound file instead, type `VotraxSpeak -f hello.wav "Hello, world!"` (or `hello.ogg` for
+Ogg Vorbis). See
 [Usage](#usage) for more. To remove the program, uninstall *VotraxSpeak* in Windows Settings > Apps.
 
 ## The phoneme ROM
@@ -91,16 +92,17 @@ VotraxSpeak [options] [@] <text>
 | Option                 | Meaning |
 |------------------------|---------|
 | `<text>`               | **Required.** The text to speak. Quote it, or pass several words, which are joined with spaces. |
-| `--phonemes <names>`   | Speak a phoneme list exactly as written, instead of text (see [Speaking raw phonemes](docs/speaking-raw-phonemes.md)). |
+| `--phonemes <names>`   | Speak a phoneme list exactly as written, instead of text (see [Speaking raw phonemes](docs/speaking-raw-phonemes.md)). The names can be one quoted argument or separate arguments, up to the next option. |
 | `--gorf <names>`       | The same, with the names spelled as in the [Gorf arcade source](https://github.com/tinymouse42/Gorf_Disassembly/blob/main/src/Gorf_Disassembly.asm). |
-| `-f, --file <path>`    | Write the speech to a WAV file instead of playing it. |
+| `-f, --file <path>`    | Write the speech to a file instead of playing it. The format follows the extension: `.ogg` writes Ogg Vorbis, anything else writes WAV. |
 | `-s, --speed <25-400>` | Chip clock as a percentage of the nominal 720 kHz. Default `100`. |
 | `-p, --pitch <0-3>`    | Inflection level; higher is higher pitched. Default `0`. |
 | `-r, --rom <path>`     | The phoneme ROM to use. |
 | `-h, --help`           | Show help. |
 | `@`                    | Treat everything after this as text, even if it starts with `-`. |
 
-If an option is given twice, the last value wins.
+Options can be given in any order, for example `-f out.ogg --gorf "PA1 I0 N"` and `--gorf "PA1 I0 N" -f out.ogg` do
+the same. If an option is given twice, the last value wins.
 
 ### Examples
 
@@ -117,6 +119,9 @@ VotraxSpeak -s 130 -p 2 "Danger, danger!"
 :: Save to a WAV file instead of playing
 VotraxSpeak -f hello.wav "Hello, world!"
 
+:: Save as Ogg Vorbis (the extension decides the format)
+VotraxSpeak -f hello.ogg "Hello, world!"
+
 :: Use a ROM somewhere else
 VotraxSpeak --rom D:\mame\roms\sc01a.bin "Using a ROM somewhere else"
 
@@ -125,6 +130,9 @@ VotraxSpeak @ "-5 degrees outside"
 
 :: Exact phonemes instead of text (see Speaking raw phonemes)
 VotraxSpeak --phonemes "PA1 I N S ER T PA1 K O1 UH3 I3 AY N N PA1"
+
+:: Phoneme names need no quotes, and -f can come before or after them
+VotraxSpeak --gorf PA1 I0 N S ER T PA1 -f insert.ogg
 ```
 
 Numbers, decimals and thousands separators are read out ("1,905.5" becomes "one thousand nine hundred

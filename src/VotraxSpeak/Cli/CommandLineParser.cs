@@ -11,8 +11,9 @@ namespace VotraxSpeak.Cli;
 /// </summary>
 /// <remarks>
 /// Text may be one quoted argument or several words, which are joined with spaces. Options may
-/// appear anywhere before <c>@</c>; everything after <c>@</c> is text, so text that starts with
-/// '-' can still be spoken. If an option is repeated, the last value wins.
+/// appear anywhere before <c>@</c>, in any order; everything after <c>@</c> is text, so text that starts with
+/// '-' can still be spoken. If an option is repeated, the last value wins. <c>--phonemes</c> and <c>--gorf</c>
+/// take the phoneme names that follow, quoted as one argument or not, up to the next option.
 /// </remarks>
 internal static class CommandLineParser
 {
@@ -103,8 +104,17 @@ internal static class CommandLineParser
 
             default:
                 throw new CommandLineException(
-                    $"Unknown option '{argument}'. To speak text that starts with '-', put {CommandLineSwitches.EndOfOptions} before it.");
+                    $"Unknown option '{argument}'.{Suggest(argument)} To speak text that starts with '-', put {CommandLineSwitches.EndOfOptions} before it.");
         }
+    }
+
+    private static string Suggest(string argument)
+    {
+        string longForm = CommandLineSwitches.OptionPrefix + argument;
+
+        return argument.Length > 2 && argument[1] != CommandLineSwitches.OptionPrefix && CommandLineSwitches.LongOptions.Contains(longForm)
+            ? $" Did you mean '{longForm}'?"
+            : string.Empty;
     }
 
     private static bool IsOption(string argument) => argument.Length > 1 && argument[0] == CommandLineSwitches.OptionPrefix;
@@ -126,7 +136,23 @@ internal static class CommandLineParser
 
     private static IReadOnlyList<PhonemeCue> RequirePhonemes(ArgumentCursor cursor, string option, PhonemeDialect dialect)
     {
-        string list = RequireValue(cursor, option);
+        string first = RequireValue(cursor, option);
+
+        if (IsOption(first))
+        {
+            throw new CommandLineException($"Option '{option}' needs a value.");
+        }
+
+        // The names may be one quoted argument or several separate ones, up to the next option.
+        List<string> names = [first];
+
+        while (cursor.Next is { } next && !IsOption(next))
+        {
+            cursor.MoveNext();
+            names.Add(next);
+        }
+
+        string list = string.Join(" ", names);
 
         try
         {

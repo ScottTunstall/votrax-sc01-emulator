@@ -67,7 +67,7 @@ internal static class Program
 
         IAudioOutput output = options.OutputFile is null
             ? new SpeakerOutput()
-            : new WaveFileOutput(options.OutputFile);
+            : FileOutputFactory.Create(options.OutputFile);
 
         return new TextToSpeechPipeline(
             new EnglishTextToPhonemeConverter(new LetterToSoundTranslator(EnglishRules.All)),
